@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator SpawnBullet()
     {
-        for (int i = 0; i < 5; i++)
+        while (true)
         {
             Instantiate(bulletPrefab, spawnPoint.transform.position, Quaternion.identity);
             yield return new WaitForSeconds(1f);
