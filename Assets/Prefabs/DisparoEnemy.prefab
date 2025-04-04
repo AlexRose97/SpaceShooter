@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4720711519042330921}
   - component: {fileID: -6990899184590263206}
   m_Layer: 0
-  m_Name: DisparoPlayer
+  m_Name: DisparoEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 7579478567219656573, guid: a42c47678a276b449bc7d98037b9cf39, type: 3}
-  m_Color: {r: 0.53869224, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.07159805, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -101,4 +101,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidad: 10
-  direction: {x: 1, y: 0, z: 0}
+  direction: {x: -1, y: 0, z: 0}

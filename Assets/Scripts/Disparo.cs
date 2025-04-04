@@ -3,7 +3,7 @@ using UnityEngine;
 public class Disparo : MonoBehaviour
 {
     [SerializeField] private float velocidad;
-
+    [SerializeField] private Vector3 direction;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -12,6 +12,6 @@ public class Disparo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(new Vector3(1, 0, 0).normalized * velocidad * Time.deltaTime);
+        transform.Translate(direction.normalized * velocidad * Time.deltaTime);
     }
 }
