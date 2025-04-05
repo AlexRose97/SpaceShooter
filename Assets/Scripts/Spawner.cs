@@ -1,12 +1,13 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject enemyPrefab;
-
     [SerializeField] private TextMeshProUGUI textOleada;
+    [SerializeField] private Image imageBorder;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,14 +28,16 @@ public class Spawner : MonoBehaviour
             //Oleadas
             for (int j = 0; j < 3; j++)
             {
+                imageBorder.enabled = true;
                 textOleada.text = $"Nivel {i + 1} - Oleada {j + 1}";
                 yield return new WaitForSeconds(2f); //Tiempo para borrar el texto
+                imageBorder.enabled = false;
                 textOleada.text = "";
                 //Enemigos
                 for (int k = 0; k < 5; k++)
                 {
                     Vector3 randomPosition =
-                        new Vector3(transform.position.x, Random.Range(-4.4f, 4.4f), transform.position.z);
+                        new Vector3(transform.position.x, Random.Range(-3.2f, 3.2f), transform.position.z);
                     Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
                     yield return new WaitForSeconds(1f); //Tiempo entre cada enemigo
                 }

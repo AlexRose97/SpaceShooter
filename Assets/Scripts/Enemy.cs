@@ -35,6 +35,11 @@ public class Enemy : MonoBehaviour
     {
         if (other.GameObject().CompareTag("BulletPlayer"))
         {
+            Player player = FindFirstObjectByType<Player>();
+            if (player != null)
+            {
+                player.AddPoints(gameObject.tag);//Avisarle al player que gano puntos
+            }
             Destroy(other.gameObject);//destruir el laser
             Destroy(gameObject);//destruir al enemigo padre del script
         }
