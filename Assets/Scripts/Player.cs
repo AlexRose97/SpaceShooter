@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -18,11 +17,15 @@ public class Player : MonoBehaviour
     [SerializeField] private Slider sliderLife;
     [SerializeField] private Transform livesContainer;
 
-    private int totalLives = 3;
-    private float healthPerLife = 100f;
-    private float currentHealth;
-    private int score = 0;
-    private float timer;
+    [SerializeField] private AudioClip audioBullet;
+    [SerializeField] private AudioClip audioImpact;
+    [SerializeField] private AudioClip audioDestroy;
+
+    private int _totalLives = 3;
+    private float _healthPerLife = 100f;
+    private float _currentHealth;
+    private int _score;
+    private float _timer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -43,7 +46,7 @@ public class Player : MonoBehaviour
         /*** Agregar movimiento en x,y ***/
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        transform.Translate(new Vector2(horizontal, vertical).normalized * moveSpeed * Time.deltaTime);
+        transform.Translate(new Vector2(horizontal, vertical).normalized * (moveSpeed * Time.deltaTime));
     }
 
     void DelimintarMovimiento()
@@ -56,14 +59,30 @@ public class Player : MonoBehaviour
 
     void Disparar()
     {
-        timer += 1 * Time.deltaTime; //contador de tiempo
+        _timer += 1 * Time.deltaTime; //contador de tiempo
         /*se realiza un disparo cuando se preciona la tecla "espacio solo si ya se cumplio el tiempo minimo"*/
-        if (Input.GetKeyDown(KeyCode.Space) && timer > ratioBullet)
+        if (Input.GetKeyDown(KeyCode.Space) && _timer > ratioBullet)
         {
             Instantiate(bulletPrefab, spawnPoint1.transform.position, Quaternion.identity);
             Instantiate(bulletPrefab, spawnPoint2.transform.position, Quaternion.identity);
-            timer = 0; //reiniciar el contador de tiempo
+            ReproduceSound(audioBullet); //Reproducir sonido
+            _timer = 0; //reiniciar el contador de tiempo
         }
+    }
+
+    void ReproduceSound(AudioClip clip)
+    {
+        GameObject tempAudio = new GameObject("TempAudio");
+        tempAudio.transform.position = transform.position;
+
+        AudioSource tempSource = tempAudio.AddComponent<AudioSource>();
+        tempSource.clip = clip;
+        tempSource.volume = 1.0f; // 🔊 volumen deseado
+        tempSource.pitch = 1.0f;
+        tempSource.spatialBlend = 0f; // 0 = 2D, 1 = 3D
+
+        tempSource.Play();
+        Destroy(tempAudio, clip.length); // eliminar al terminar
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -75,24 +94,26 @@ public class Player : MonoBehaviour
             TakeDamage(damage);
             Destroy(other.gameObject); //elimina graficamente el objeto
             UpdateUIValues();
+            ReproduceSound(audioImpact); //Reproducir sonido
         }
     }
 
     private void TakeDamage(float amount)
     {
-        currentHealth -= amount;
-        if (currentHealth <= 0)
+        _currentHealth -= amount;
+        if (_currentHealth <= 0)
         {
-            totalLives--;
+            _totalLives--;
             AddOrRemoveHeartIcon(false);
-            if (totalLives <= 0)
+            ReproduceSound(audioDestroy); //Reproducir sonido
+            if (_totalLives <= 0)
             {
                 Destroy(gameObject);
                 Time.timeScale = 0f; // detener el juego
             }
             else
             {
-                currentHealth = healthPerLife; //Reinicia el % de vida
+                _currentHealth = _healthPerLife; //Reinicia el % de vida
             }
         }
     }
@@ -122,18 +143,18 @@ public class Player : MonoBehaviour
 
     private void UpdateUIValues()
     {
-        textPoints.text = $"PUNTOS: {score}";
-        textLife.text = $"VIDA: {currentHealth}%";
-        sliderLife.value = currentHealth / healthPerLife;
+        textPoints.text = $"PUNTOS: {_score}";
+        textLife.text = $"VIDA: {_currentHealth}%";
+        sliderLife.value = _currentHealth / _healthPerLife;
     }
 
     private void InitialValues()
     {
         AddOrRemoveHeartIcon(true, true); //reiniciar las vidas graficamente
-        totalLives = 3;
-        healthPerLife = 100f;
-        currentHealth = healthPerLife;
-        score = 0;
+        _totalLives = 3;
+        _healthPerLife = 100f;
+        _currentHealth = _healthPerLife;
+        _score = 0;
         UpdateUIValues();
     }
 
@@ -144,7 +165,7 @@ public class Player : MonoBehaviour
     /// <param name="tagValue">tag del objeto destruido, usada para determinar los puntos</param>
     public void AddPoints(string tagValue)
     {
-        score += DamageConstants.GetPoints(tagValue); //obtener puntos por destruccion
+        _score += DamageConstants.GetPoints(tagValue); //obtener puntos por destruccion
         UpdateUIValues();
     }
 }

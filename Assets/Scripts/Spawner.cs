@@ -18,6 +18,11 @@ public class Spawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.x < -10f || transform.position.x > 10f ||
+            transform.position.y < -6f || transform.position.y > 6f)
+        {
+            Destroy(gameObject);
+        }
     }
 
     IEnumerator SpawnEnemies()
