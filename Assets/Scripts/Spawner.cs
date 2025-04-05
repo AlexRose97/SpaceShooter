@@ -33,7 +33,9 @@ public class Spawner : MonoBehaviour
                 //Enemigos
                 for (int k = 0; k < 5; k++)
                 {
-                    Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+                    Vector3 randomPosition =
+                        new Vector3(transform.position.x, Random.Range(-4.4f, 4.4f), transform.position.z);
+                    Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
                     yield return new WaitForSeconds(1f); //Tiempo entre cada enemigo
                 }
 

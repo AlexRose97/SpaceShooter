@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -8,7 +10,9 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject spawnPoint1;
     [SerializeField] private GameObject spawnPoint2;
 
+    private float lives = 3;
     private float timer;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -47,6 +51,19 @@ public class Player : MonoBehaviour
             Instantiate(bulletPrefab, spawnPoint1.transform.position, Quaternion.identity);
             Instantiate(bulletPrefab, spawnPoint2.transform.position, Quaternion.identity);
             timer = 0; //reiniciar el contador de tiempo
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.GameObject().CompareTag("BulletEnemy") || other.GameObject().CompareTag("Enemy"))
+        {
+            lives--;
+            Destroy(other.gameObject);
+            if (lives == 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
