@@ -1,6 +1,7 @@
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -109,7 +110,7 @@ public class Player : MonoBehaviour
             if (_totalLives <= 0)
             {
                 Destroy(gameObject);
-                Time.timeScale = 0f; // detener el juego
+                SceneManager.LoadScene("MenuPrincipal");//Time.timeScale = 0f; // detener el juego
             }
             else
             {
