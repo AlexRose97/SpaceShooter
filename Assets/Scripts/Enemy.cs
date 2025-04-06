@@ -1,21 +1,32 @@
 using System.Collections;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Configuracion")] [SerializeField]
+    private int nivel = 1; // 1 = fácil, 2 = medio, 3 = difícil
+
+    [SerializeField] private int vidaMaxima = 1;
     [SerializeField] private float velocidad;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private GameObject spawnPoint;
 
+    [Header("Disparo")] [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private Transform[] spawnsPoints;
+    [SerializeField] private float minTimeBullet = 1f;
+    [SerializeField] private float maxTimeBullet = 2f;
 
-    [SerializeField] private AudioClip audioBullet;
+    [Header("Sonidos")] [SerializeField] private AudioClip audioBullet;
     [SerializeField] private AudioClip audioDestroy;
+    public int Nivel => nivel; //Exponer el nivel actual
+
+    private int vidaActual;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        vidaActual = vidaMaxima;
         StartCoroutine(SpawnBullet());
     }
 
@@ -30,9 +41,16 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            Instantiate(bulletPrefab, spawnPoint.transform.position, Quaternion.identity);
-            ReproduceSound(audioBullet); //Reproduce el sonido
-            yield return new WaitForSeconds(Random.Range(1f, 2f));
+            Transform[] puntosMezclados = spawnsPoints.OrderBy(x => Random.value).ToArray();
+            foreach (Transform punto in puntosMezclados)
+            {
+                Instantiate(bulletPrefab, punto.position, Quaternion.identity);
+                yield return new WaitForSeconds(Random.Range(0f, 0.15f)); //Retrazo entre disparo
+            }
+
+            ReproduceSound(audioBullet);
+            float tiempoEspera = Random.Range(minTimeBullet, maxTimeBullet);
+            yield return new WaitForSeconds(tiempoEspera);
         }
     }
 
@@ -43,7 +61,7 @@ public class Enemy : MonoBehaviour
             Player player = FindFirstObjectByType<Player>();
             if (player != null)
             {
-                player.AddPoints(gameObject.tag); //Avisarle al player que gano puntos
+                player.AddPoints(this); //Avisarle al player que gano puntos
             }
 
             ReproduceSound(audioDestroy); //Reproduce el sonido

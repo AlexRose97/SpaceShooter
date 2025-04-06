@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject enemyPrefab1;
+    [SerializeField] private GameObject enemyPrefab2;
+    [SerializeField] private GameObject enemyPrefab3;
     [SerializeField] private TextMeshProUGUI textOleada;
     [SerializeField] private Image imageBorder;
 
@@ -31,11 +33,11 @@ public class Spawner : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             //Oleadas
-            for (int j = 0; j < 3; j++)
+            for (int j = 0; j < 1; j++)
             {
                 imageBorder.enabled = true;
                 textOleada.text = $"Nivel {i + 1} - Oleada {j + 1}";
-                yield return new WaitForSeconds(2f); //Tiempo para borrar el texto
+                yield return new WaitForSeconds(1f); //Tiempo para borrar el texto
                 imageBorder.enabled = false;
                 textOleada.text = "";
                 //Enemigos
@@ -43,7 +45,19 @@ public class Spawner : MonoBehaviour
                 {
                     Vector3 randomPosition =
                         new Vector3(transform.position.x, Random.Range(-3.2f, 3.2f), transform.position.z);
-                    Instantiate(enemyPrefab, randomPosition, Quaternion.identity);
+                    switch (i)
+                    {
+                        case 0:
+                            Instantiate(enemyPrefab1, randomPosition, Quaternion.identity);
+                            break;
+                        case 1:
+                            Instantiate(enemyPrefab2, randomPosition, Quaternion.identity);
+                            break;
+                        case 2:
+                            Instantiate(enemyPrefab3, randomPosition, Quaternion.identity);
+                            break;
+                    }
+
                     yield return new WaitForSeconds(1f); //Tiempo entre cada enemigo
                 }
 

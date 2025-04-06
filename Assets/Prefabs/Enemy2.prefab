@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8266877129849457887}
   m_Layer: 0
-  m_Name: SpawPoint
+  m_Name: SpawPoint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,7 +25,38 @@ Transform:
   m_GameObject: {fileID: 2322463007852551393}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.308, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7519015420864729209}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4944262824660928870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5736312819188946050}
+  m_Layer: 0
+  m_Name: SpawPoint2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5736312819188946050
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4944262824660928870}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.277, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,7 +76,7 @@ GameObject:
   - component: {fileID: -9221522171079640940}
   - component: {fileID: -28922187965118673}
   m_Layer: 0
-  m_Name: Enemy1
+  m_Name: Enemy2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,6 +97,7 @@ Transform:
   m_Children:
   - {fileID: 8016137191437012875}
   - {fileID: 8266877129849457887}
+  - {fileID: 5736312819188946050}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-8134334909691490313
@@ -80,12 +112,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7d370e4e87784041b5ce018ff37c71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nivel: 1
-  vidaMaxima: 1
+  nivel: 2
+  vidaMaxima: 2
   velocidad: 5
   bulletPrefab: {fileID: 8930179388926163470, guid: 70399586cb2802340bd091d232f6307c, type: 3}
   spawnsPoints:
   - {fileID: 8266877129849457887}
+  - {fileID: 5736312819188946050}
   audioBullet: {fileID: 8300000, guid: 5f0871aed06b2e9459bbfde00b3eada9, type: 3}
   audioDestroy: {fileID: 8300000, guid: 2e3f90a0d51070b44acd77e26aba8a82, type: 3}
 --- !u!61 &745992089483697752
@@ -334,7 +367,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -3876759189950653258, guid: f39326d157619ed4d814310deb2e6143, type: 3}
+  m_Sprite: {fileID: -7642239419928554605, guid: f39326d157619ed4d814310deb2e6143, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

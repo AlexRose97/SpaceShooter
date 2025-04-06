@@ -88,19 +88,32 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GameObject().CompareTag("BulletEnemy") || other.GameObject().CompareTag("Enemy"))
+        if (other.CompareTag("BulletEnemy"))
         {
-            float damage = DamageConstants.GetDamage(other.tag); //obtener el daño actual
-            AddPoints(other.tag);
+            float damage = DamageConstants.GetDamage(other.tag);
             TakeDamage(damage);
-            Destroy(other.gameObject); //elimina graficamente el objeto
-            UpdateUIValues();
-            ReproduceSound(audioImpact); //Reproducir sonido
+            Destroy(other.gameObject);
+            ReproduceSound(audioImpact);
+            return;
+        }
+
+        if (other.CompareTag("Enemy"))
+        {
+            Enemy enemy = other.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                float damage = DamageConstants.GetDamage(enemy.tag, enemy.Nivel);
+                TakeDamage(damage);
+                AddPoints(enemy);
+                Destroy(other.gameObject);
+                ReproduceSound(audioImpact);
+            }
         }
     }
 
     private void TakeDamage(float amount)
     {
+        Debug.Log("Daño:" + amount);
         _currentHealth -= amount;
         if (_currentHealth <= 0)
         {
@@ -110,7 +123,7 @@ public class Player : MonoBehaviour
             if (_totalLives <= 0)
             {
                 Destroy(gameObject);
-                SceneManager.LoadScene("MenuPrincipal");//Time.timeScale = 0f; // detener el juego
+                SceneManager.LoadScene("MenuPrincipal"); //Time.timeScale = 0f; // detener el juego
             }
             else
             {
@@ -163,10 +176,10 @@ public class Player : MonoBehaviour
     /// Incrementa la puntuación del jugador según el tipo de enemigo destruido,
     /// utiliza un tag y actualiza la interfaz de usuario.
     /// </summary>
-    /// <param name="tagValue">tag del objeto destruido, usada para determinar los puntos</param>
-    public void AddPoints(string tagValue)
+    /// <param name="enemy">Instancia del enemigo, usada para determinar los puntos</param>
+    public void AddPoints(Enemy enemy)
     {
-        _score += DamageConstants.GetPoints(tagValue); //obtener puntos por destruccion
+        _score += DamageConstants.GetPoints(enemy.tag, enemy.Nivel);
         UpdateUIValues();
     }
 }

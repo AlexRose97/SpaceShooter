@@ -2866,7 +2866,7 @@ Transform:
   m_GameObject: {fileID: 1473912751}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.84, y: 0, z: 0}
+  m_LocalPosition: {x: 12.75, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 13.137, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4480,7 +4480,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97b5ba266d8f6b941b08404776f6dfee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 7404060481155604895, guid: 3b7df190468f6e44390d5ea4f41e104f, type: 3}
+  enemyPrefab1: {fileID: 7404060481155604895, guid: 3b7df190468f6e44390d5ea4f41e104f, type: 3}
+  enemyPrefab2: {fileID: 7404060481155604895, guid: e589ecf727aaf2847b6825ab4895c0df, type: 3}
+  enemyPrefab3: {fileID: 7404060481155604895, guid: 9253a38de68653e41ac8e0a36dfdcff4, type: 3}
   textOleada: {fileID: 1522105723}
   imageBorder: {fileID: 1974948157}
 --- !u!4 &2145070276
@@ -4492,7 +4494,7 @@ Transform:
   m_GameObject: {fileID: 2145070274}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.32, y: 0.6, z: 0}
+  m_LocalPosition: {x: 10, y: -3.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
