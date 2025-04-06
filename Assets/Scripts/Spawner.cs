@@ -10,6 +10,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab3;
     [SerializeField] private TextMeshProUGUI textOleada;
     [SerializeField] private Image imageBorder;
+    [SerializeField] private GameObject gameOverContainer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -66,5 +67,9 @@ public class Spawner : MonoBehaviour
 
             yield return new WaitForSeconds(5f); //Tiempo entre cada Nivel
         }
+        
+        
+        Time.timeScale = 0f; // detener el juego
+        gameOverContainer.SetActive(true);
     }
 }

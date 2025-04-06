@@ -17,6 +17,9 @@ public class Player : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textPoints;
     [SerializeField] private Slider sliderLife;
     [SerializeField] private Transform livesContainer;
+    [SerializeField] private GameObject gameOverContainer;
+    [SerializeField] private GameObject stopGameContainer;
+
 
     [SerializeField] private AudioClip audioBullet;
     [SerializeField] private AudioClip audioImpact;
@@ -40,6 +43,24 @@ public class Player : MonoBehaviour
         Movimiento();
         DelimintarMovimiento();
         Disparar();
+        menuPausa();
+    }
+
+    void menuPausa()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (stopGameContainer.activeSelf)
+            {
+                stopGameContainer.SetActive(false);
+                Time.timeScale = 1f; // continuar el juego
+            }
+            else
+            {
+                stopGameContainer.SetActive(true);
+                Time.timeScale = 0f; // detener el juego
+            }
+        }
     }
 
     void Movimiento()
@@ -94,7 +115,7 @@ public class Player : MonoBehaviour
             TakeDamage(damage);
             Destroy(other.gameObject);
             ReproduceSound(audioImpact);
-            return;
+            UpdateUIValues();
         }
 
         if (other.CompareTag("Enemy"))
@@ -113,7 +134,6 @@ public class Player : MonoBehaviour
 
     private void TakeDamage(float amount)
     {
-        Debug.Log("Daño:" + amount);
         _currentHealth -= amount;
         if (_currentHealth <= 0)
         {
@@ -123,7 +143,8 @@ public class Player : MonoBehaviour
             if (_totalLives <= 0)
             {
                 Destroy(gameObject);
-                SceneManager.LoadScene("MenuPrincipal"); //Time.timeScale = 0f; // detener el juego
+                Time.timeScale = 0f; // detener el juego
+                gameOverContainer.SetActive(true);
             }
             else
             {
