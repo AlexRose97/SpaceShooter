@@ -1,7 +1,5 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -46,10 +44,10 @@ public class Player : MonoBehaviour
         Movimiento();
         DelimintarMovimiento();
         Disparar();
-        menuPausa();
+        MenuPausa();
     }
 
-    void menuPausa()
+    void MenuPausa()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -171,7 +169,7 @@ public class Player : MonoBehaviour
         {
             //sino aumenta la cantidad de vidas
             _totalLives++;
-            Mathf.Clamp(_totalLives, 0, _maxLives);
+            _totalLives = Mathf.Clamp(_totalLives, 0, _maxLives);
             AddOrRemoveHeartIcon(true);
         }
 

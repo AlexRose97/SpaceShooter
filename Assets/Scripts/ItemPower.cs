@@ -18,21 +18,21 @@ public class ItemPower : MonoBehaviour
 
 
     public TipoItem tipoItem;
-    private Vector3 direccion;
+    private Vector3 _direccion;
 
     void Start()
     {
-        direccion = new Vector3(-1, Random.Range(-1f, 1f), 0).normalized;
+        _direccion = new Vector3(-1, Random.Range(-1f, 1f), 0).normalized;
     }
 
     void Update()
     {
-        transform.Translate(direccion * (velocidad * Time.deltaTime));
+        transform.Translate(_direccion * (velocidad * Time.deltaTime));
 
         // Si toca los límites verticales, invierte dirección Y
         if (transform.position.y <= minY || transform.position.y >= maxY)
         {
-            direccion.y = -direccion.y;
+            _direccion.y = -_direccion.y;
         }
     }
 
