@@ -6030,6 +6030,7 @@ MonoBehaviour:
   audioBullet: {fileID: 8300000, guid: 952ac28e45f61394794d6235827fc3a1, type: 3}
   audioImpact: {fileID: 8300000, guid: 2e3f90a0d51070b44acd77e26aba8a82, type: 3}
   audioDestroy: {fileID: 8300000, guid: 0920db12875440843bd960de724e3f0b, type: 3}
+  explosionPlayerPrefab: {fileID: 7730856520814416153, guid: 0e7152b7219e553418c07554ce0aab11, type: 3}
 --- !u!61 &2070766555
 BoxCollider2D:
   m_ObjectHideFlags: 0

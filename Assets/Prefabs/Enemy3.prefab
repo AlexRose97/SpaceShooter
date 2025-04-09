@@ -152,8 +152,11 @@ MonoBehaviour:
   - {fileID: 8266877129849457887}
   - {fileID: 3969449296981824009}
   - {fileID: 8614309363842274340}
+  minTimeBullet: 1
+  maxTimeBullet: 2
   audioBullet: {fileID: 8300000, guid: 5f0871aed06b2e9459bbfde00b3eada9, type: 3}
   audioDestroy: {fileID: 8300000, guid: 2e3f90a0d51070b44acd77e26aba8a82, type: 3}
+  explosionPrefab: {fileID: 7730856520814416153, guid: 62ecc9810a631fa4db93bca37958baa9, type: 3}
 --- !u!61 &745992089483697752
 BoxCollider2D:
   m_ObjectHideFlags: 0

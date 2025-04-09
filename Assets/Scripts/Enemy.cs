@@ -19,6 +19,10 @@ public class Enemy : MonoBehaviour
 
     [Header("Sonidos")] [SerializeField] private AudioClip audioBullet;
     [SerializeField] private AudioClip audioDestroy;
+
+    [Header("Animaciones")] [SerializeField]
+    private GameObject explosionPrefab;
+
     public int Nivel => nivel; //Exponer el nivel actual
 
     private int vidaActual;
@@ -64,9 +68,12 @@ public class Enemy : MonoBehaviour
                 player.AddPoints(this); //Avisarle al player que gano puntos
             }
 
+            GameObject explosionEnemy =
+                Instantiate(explosionPrefab, gameObject.transform.position, Quaternion.identity);
             ReproduceSound(audioDestroy); //Reproduce el sonido
             Destroy(other.gameObject); //destruir el laser
             Destroy(gameObject); //destruir al enemigo padre del script
+            Destroy(explosionEnemy, 0.18f); //destruir al enemigo padre del script
         }
     }
 

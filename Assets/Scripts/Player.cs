@@ -20,10 +20,12 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject gameOverContainer;
     [SerializeField] private GameObject stopGameContainer;
 
-
-    [SerializeField] private AudioClip audioBullet;
+    [Header("Sonidos")] [SerializeField] private AudioClip audioBullet;
     [SerializeField] private AudioClip audioImpact;
     [SerializeField] private AudioClip audioDestroy;
+
+    [Header("Animaciones")] [SerializeField]
+    private GameObject explosionPlayerPrefab;
 
     private int _totalLives = 3;
     private float _healthPerLife = 100f;
@@ -140,6 +142,10 @@ public class Player : MonoBehaviour
             _totalLives--;
             AddOrRemoveHeartIcon(false);
             ReproduceSound(audioDestroy); //Reproducir sonido
+            //Animar explosion al perder una vida
+            GameObject explosionPlayer =
+                Instantiate(explosionPlayerPrefab, gameObject.transform.position, Quaternion.identity);
+            Destroy(explosionPlayer, 0.18f); //destruir prefab de explosion
             if (_totalLives <= 0)
             {
                 Destroy(gameObject);
