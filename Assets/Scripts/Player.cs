@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     private GameObject explosionPlayerPrefab;
 
     private int _totalLives = 3;
+    private int _maxLives = 3;
     private float _healthPerLife = 100f;
     private float _currentHealth;
     private int _score;
@@ -159,6 +160,24 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void RecuperarVida()
+    {
+        // Si la vida actual está incompleta, primero la rellena
+        if (_currentHealth < _healthPerLife)
+        {
+            _currentHealth = _healthPerLife;
+        }
+        else
+        {
+            //sino aumenta la cantidad de vidas
+            _totalLives++;
+            Mathf.Clamp(_totalLives, 0, _maxLives);
+            AddOrRemoveHeartIcon(true);
+        }
+
+        UpdateUIValues(); // Actualiza corazones o barra de vida
+    }
+
     /// <summary>
     /// Permite ocultar/mostrar los 3 iconos de corazon
     /// </summary>
@@ -208,5 +227,21 @@ public class Player : MonoBehaviour
     {
         _score += DamageConstants.GetPoints(enemy.tag, enemy.Nivel);
         UpdateUIValues();
+    }
+
+    public void ActivarItem(TipoItem tipo)
+    {
+        switch (tipo)
+        {
+            case TipoItem.Vida:
+                RecuperarVida();
+                break;
+            case TipoItem.Escudo:
+                break;
+            case TipoItem.Misil:
+                break;
+            case TipoItem.Radar:
+                break;
+        }
     }
 }

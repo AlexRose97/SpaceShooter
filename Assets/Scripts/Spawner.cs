@@ -5,12 +5,15 @@ using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab1;
+    [Header("Enemigos")] [SerializeField] private GameObject enemyPrefab1;
     [SerializeField] private GameObject enemyPrefab2;
     [SerializeField] private GameObject enemyPrefab3;
     [SerializeField] private TextMeshProUGUI textOleada;
     [SerializeField] private Image imageBorder;
     [SerializeField] private GameObject gameOverContainer;
+
+    [Header("ItemsPowers")] [SerializeField]
+    private GameObject[] itemPrefabs;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -59,6 +62,15 @@ public class Spawner : MonoBehaviour
                             break;
                     }
 
+                    // 💡 Aparición aleatoria de powers con 25% de probabilidad
+                    if (Random.value < 0.25f)
+                    {
+                        int itemIndex = Random.Range(0, itemPrefabs.Length);
+                        Vector3 itemPos = new Vector3(transform.position.x, Random.Range(-3.2f, 3.2f),
+                            transform.position.z);
+                        Instantiate(itemPrefabs[itemIndex], itemPos, Quaternion.identity);
+                    }
+
                     yield return new WaitForSeconds(1f); //Tiempo entre cada enemigo
                 }
 
@@ -67,8 +79,8 @@ public class Spawner : MonoBehaviour
 
             yield return new WaitForSeconds(5f); //Tiempo entre cada Nivel
         }
-        
-        
+
+
         Time.timeScale = 0f; // detener el juego
         gameOverContainer.SetActive(true);
     }

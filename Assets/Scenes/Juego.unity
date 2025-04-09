@@ -6323,6 +6323,8 @@ MonoBehaviour:
   textOleada: {fileID: 1522105723}
   imageBorder: {fileID: 1974948157}
   gameOverContainer: {fileID: 2019882914}
+  itemPrefabs:
+  - {fileID: 3044331616187368755, guid: e9c3ff83e4ee7bd40950364a397c86a9, type: 3}
 --- !u!4 &2145070276
 Transform:
   m_ObjectHideFlags: 0
