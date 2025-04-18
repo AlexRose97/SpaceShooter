@@ -32,6 +32,10 @@ public class Player : MonoBehaviour
     private int _score;
     private float _timer;
 
+    public int Score => _score;
+    public int TotalLives => _totalLives;
+    public float CurrentHealth => _currentHealth;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

@@ -2005,7 +2005,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1933844288}
+      - m_Target: {fileID: 1933844290}
         m_TargetAssemblyTypeName: GameMananger, Assembly-CSharp
         m_MethodName: FinJuego
         m_Mode: 1
@@ -3789,7 +3789,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1933844288}
+      - m_Target: {fileID: 1933844290}
         m_TargetAssemblyTypeName: GameMananger, Assembly-CSharp
         m_MethodName: Reiniciar
         m_Mode: 1
@@ -4875,7 +4875,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1933844288}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GameMananger, Assembly-CSharp
         m_MethodName: Continuar
         m_Mode: 1
@@ -5371,7 +5371,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1933844289}
-  - component: {fileID: 1933844288}
+  - component: {fileID: 1933844290}
   m_Layer: 0
   m_Name: GameMananger
   m_TagString: Untagged
@@ -5379,18 +5379,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1933844288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1933844287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52793a477e8721544a5ee2378d66085d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1933844289
 Transform:
   m_ObjectHideFlags: 0
@@ -5406,6 +5394,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1933844290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933844287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52793a477e8721544a5ee2378d66085d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lista:
+    partidas: []
 --- !u!1 &1974948155
 GameObject:
   m_ObjectHideFlags: 0
@@ -5564,7 +5566,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1933844288}
+      - m_Target: {fileID: 1933844290}
         m_TargetAssemblyTypeName: GameMananger, Assembly-CSharp
         m_MethodName: FinJuego
         m_Mode: 1

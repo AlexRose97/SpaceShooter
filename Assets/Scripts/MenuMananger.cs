@@ -1,4 +1,5 @@
-using System;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ public class MenuMananger : MonoBehaviour
 {
     [Header("Paneles")] [SerializeField] private GameObject panelInformacion;
     [SerializeField] private GameObject panelMenuPrincipal;
+    [SerializeField] private GameObject panelPunteos;
 
     [Header("SubPaneles")] [SerializeField]
     private GameObject panelObjetivo;
@@ -21,11 +23,36 @@ public class MenuMananger : MonoBehaviour
     [Header("Colores")] [SerializeField] private Color colorActivo = new Color(0.2f, 0.6f, 1f); // Azul claro
     [SerializeField] private Color colorInactivo = Color.white;
 
+    [Header("UI-Prefabs")] [SerializeField]
+    private GameObject itemUIPrefab;
+
+    [SerializeField] private Transform contenedorItems;
+    private string RutaArchivo => Application.persistentDataPath + "/partidas.json";
+    public ListaDePartidas lista = new();
+
+    private void Awake()
+    {
+        CargarDatos();
+    }
+
+    /// <summary>
+    /// Funcion para cargar punteos guardados
+    /// </summary>
+    public void CargarDatos()
+    {
+        if (File.Exists(RutaArchivo))
+        {
+            string json = File.ReadAllText(RutaArchivo);
+            lista = JsonUtility.FromJson<ListaDePartidas>(json);
+        }
+    }
+
 
     private void Start()
     {
         panelMenuPrincipal.SetActive(true);
         panelInformacion.SetActive(false);
+        panelPunteos.SetActive(false);
     }
 
     /// <summary>
@@ -57,6 +84,7 @@ public class MenuMananger : MonoBehaviour
         {
             panelMenuPrincipal.SetActive(false);
             panelInformacion.SetActive(true);
+            panelPunteos.SetActive(false);
             //seleccionar el primer subpanel por defecto
             panelObjetivo.SetActive(true);
             btnObjetivo.image.color = colorActivo;
@@ -70,6 +98,14 @@ public class MenuMananger : MonoBehaviour
         {
             panelMenuPrincipal.SetActive(true);
             panelInformacion.SetActive(false);
+            panelPunteos.SetActive(false);
+        }
+        else if (panel == "Punteos")
+        {
+            panelMenuPrincipal.SetActive(false);
+            panelInformacion.SetActive(false);
+            panelPunteos.SetActive(true);
+            MostrarRanking();
         }
     }
 
@@ -88,5 +124,26 @@ public class MenuMananger : MonoBehaviour
         btnObjetivo.image.color = (panel == "Objetivo") ? colorActivo : colorInactivo;
         btnEnemigos.image.color = (panel == "Enemigos") ? colorActivo : colorInactivo;
         btnPowerUps.image.color = (panel == "Poderes") ? colorActivo : colorInactivo;
+    }
+
+    public void MostrarRanking()
+    {
+        // Limpia el contenido anterior
+        foreach (Transform hijo in contenedorItems)
+        {
+            Destroy(hijo.gameObject);
+        }
+
+        // Ordenar por puntuación descendente
+        var partidasOrdenadas = lista.partidas
+            .OrderByDescending(p => p.puntuacion)
+            .ToList();
+
+        foreach (var partida in partidasOrdenadas)
+        {
+            GameObject item = Instantiate(itemUIPrefab, contenedorItems);
+            var ui = item.GetComponent<ItemUIPunteos>();
+            ui.Configurar(partida.nombreJugador, partida.puntuacion, partida.fecha);
+        }
     }
 }
