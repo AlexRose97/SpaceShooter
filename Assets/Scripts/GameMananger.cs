@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class PartidaData
 {
     public string nombreJugador;
+    public string dificultad;
     public int puntuacion;
     public string fecha;
 }
@@ -33,9 +34,10 @@ public class GameMananger : MonoBehaviour
         Player player = FindFirstObjectByType<Player>();
         lista.partidas.Add(new PartidaData
         {
-            nombreJugador = "test", 
-            puntuacion = player.Score, 
-            fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            nombreJugador = GameGlobalValues.NombreJugador,
+            dificultad = GameGlobalValues.Dificultad,
+            puntuacion = player.Score,
+            fecha = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
         });
         string json = JsonUtility.ToJson(lista, true);
         File.WriteAllText(RutaArchivo, json);
@@ -52,9 +54,9 @@ public class GameMananger : MonoBehaviour
 
     public void FinJuego()
     {
+        GuardarPartida();
         SceneManager.LoadScene("MenuPrincipal");
         Time.timeScale = 1f; // detener el juego
-        GuardarPartida();
     }
 
     public void Continuar()

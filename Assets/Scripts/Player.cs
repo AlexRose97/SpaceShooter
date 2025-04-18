@@ -151,7 +151,6 @@ public class Player : MonoBehaviour
             Destroy(explosionPlayer, 0.18f); //destruir prefab de explosion
             if (_totalLives <= 0)
             {
-                Destroy(gameObject);
                 Time.timeScale = 0f; // detener el juego
                 gameOverContainer.SetActive(true);
             }

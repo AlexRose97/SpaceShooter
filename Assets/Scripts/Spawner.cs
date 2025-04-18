@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class Spawner : MonoBehaviour
 {
     [Header("Enemigos")] [SerializeField] private GameObject enemyPrefab1;
@@ -33,11 +34,12 @@ public class Spawner : MonoBehaviour
 
     IEnumerator SpawnEnemies()
     {
+        var datos = GameGlobalValues.ObtenerDatosPorDificultad(GameGlobalValues.Dificultad);
         //Niveles
         for (int i = 0; i < 3; i++)
         {
             //Oleadas
-            for (int j = 0; j < 1; j++)
+            for (int j = 0; j < datos.oleadas; j++)
             {
                 imageBorder.enabled = true;
                 textOleada.text = $"Nivel {i + 1} - Oleada {j + 1}";
@@ -45,7 +47,7 @@ public class Spawner : MonoBehaviour
                 imageBorder.enabled = false;
                 textOleada.text = "";
                 //Enemigos
-                for (int k = 0; k < 5; k++)
+                for (int k = 0; k < datos.enemigos; k++)
                 {
                     Vector3 randomPosition =
                         new Vector3(transform.position.x, Random.Range(-3.2f, 3.2f), transform.position.z);
@@ -62,8 +64,8 @@ public class Spawner : MonoBehaviour
                             break;
                     }
 
-                    // 💡 Aparición aleatoria de powers con 25% de probabilidad
-                    if (Random.value < 0.25f)
+                    // 💡 Aparición aleatoria de powers con itemsDrop% de probabilidad
+                    if (Random.value < datos.itemsDrop)
                     {
                         int itemIndex = Random.Range(0, itemPrefabs.Length);
                         Vector3 itemPos = new Vector3(transform.position.x, Random.Range(-3.2f, 3.2f),
@@ -71,7 +73,7 @@ public class Spawner : MonoBehaviour
                         Instantiate(itemPrefabs[itemIndex], itemPos, Quaternion.identity);
                     }
 
-                    yield return new WaitForSeconds(1f); //Tiempo entre cada enemigo
+                    yield return new WaitForSeconds(datos.tiempoEnemigo); //Tiempo entre cada enemigo
                 }
 
                 yield return new WaitForSeconds(3f); //Tiempo entre cada Oleada

@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class MenuMananger : MonoBehaviour
     [Header("Paneles")] [SerializeField] private GameObject panelInformacion;
     [SerializeField] private GameObject panelMenuPrincipal;
     [SerializeField] private GameObject panelPunteos;
+    [SerializeField] private GameObject panelConfiguracion;
 
     [Header("SubPaneles")] [SerializeField]
     private GameObject panelObjetivo;
@@ -19,6 +21,8 @@ public class MenuMananger : MonoBehaviour
     [Header("Botones")] [SerializeField] private Button btnObjetivo;
     [SerializeField] private Button btnEnemigos;
     [SerializeField] private Button btnPowerUps;
+    [SerializeField] private TMP_InputField inputNombre;
+    [SerializeField] private TMP_Dropdown dropdownDificultad;
 
     [Header("Colores")] [SerializeField] private Color colorActivo = new Color(0.2f, 0.6f, 1f); // Azul claro
     [SerializeField] private Color colorInactivo = Color.white;
@@ -53,6 +57,7 @@ public class MenuMananger : MonoBehaviour
         panelMenuPrincipal.SetActive(true);
         panelInformacion.SetActive(false);
         panelPunteos.SetActive(false);
+        panelConfiguracion.SetActive(false);
     }
 
     /// <summary>
@@ -60,6 +65,8 @@ public class MenuMananger : MonoBehaviour
     /// </summary>
     public void ButtonPlay()
     {
+        GameGlobalValues.NombreJugador = inputNombre.text;
+        GameGlobalValues.Dificultad = dropdownDificultad.options[dropdownDificultad.value].text;
         SceneManager.LoadScene("Juego");
     }
 
@@ -85,6 +92,7 @@ public class MenuMananger : MonoBehaviour
             panelMenuPrincipal.SetActive(false);
             panelInformacion.SetActive(true);
             panelPunteos.SetActive(false);
+            panelConfiguracion.SetActive(false);
             //seleccionar el primer subpanel por defecto
             panelObjetivo.SetActive(true);
             btnObjetivo.image.color = colorActivo;
@@ -99,12 +107,22 @@ public class MenuMananger : MonoBehaviour
             panelMenuPrincipal.SetActive(true);
             panelInformacion.SetActive(false);
             panelPunteos.SetActive(false);
+            panelConfiguracion.SetActive(false);
         }
         else if (panel == "Punteos")
         {
             panelMenuPrincipal.SetActive(false);
             panelInformacion.SetActive(false);
             panelPunteos.SetActive(true);
+            panelConfiguracion.SetActive(false);
+            MostrarRanking();
+        }
+        else if (panel == "Configuracion")
+        {
+            panelMenuPrincipal.SetActive(false);
+            panelInformacion.SetActive(false);
+            panelPunteos.SetActive(false);
+            panelConfiguracion.SetActive(true);
             MostrarRanking();
         }
     }
@@ -136,6 +154,7 @@ public class MenuMananger : MonoBehaviour
 
         // Ordenar por puntuación descendente
         var partidasOrdenadas = lista.partidas
+            .Where(p => p.puntuacion > 0)
             .OrderByDescending(p => p.puntuacion)
             .ToList();
 
@@ -143,7 +162,7 @@ public class MenuMananger : MonoBehaviour
         {
             GameObject item = Instantiate(itemUIPrefab, contenedorItems);
             var ui = item.GetComponent<ItemUIPunteos>();
-            ui.Configurar(partida.nombreJugador, partida.puntuacion, partida.fecha);
+            ui.Configurar(partida.nombreJugador, partida.puntuacion, partida.fecha, partida.dificultad);
         }
     }
 }
