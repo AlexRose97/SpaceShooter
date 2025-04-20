@@ -4,13 +4,15 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    [Header("Player Info")]
     [SerializeField] private float moveSpeed; //velocidad de movimiento
     [SerializeField] private float ratioBullet; //frecuencia de los disparos
+    [Header("Prefab Bala")]
     [SerializeField] private GameObject bulletPrefab; //UI disparo
     [SerializeField] private GameObject spawnPoint1; //posicion bala1
     [SerializeField] private GameObject spawnPoint2; //posicion bala2
 
-
+    [Header("UI Elements")]
     [SerializeField] private TextMeshProUGUI textLife;
     [SerializeField] private TextMeshProUGUI textPoints;
     [SerializeField] private Slider sliderLife;
@@ -94,7 +96,7 @@ public class Player : MonoBehaviour
             vertical = _inputTouch.y;
         }
         Vector2 direccion = new Vector2(horizontal, vertical).normalized;
-        transform.Translate(direccion * moveSpeed * Time.deltaTime);
+        transform.Translate(direccion * (moveSpeed * Time.deltaTime));
     }
 
     void DelimintarMovimiento()
@@ -104,11 +106,16 @@ public class Player : MonoBehaviour
         float yClamp = Mathf.Clamp(transform.position.y, -3.2f, 3.2f);
         transform.position = new Vector3(xClamp, yClamp, transform.position.z);
     }
-
+    /// <summary>
+    /// Funcion para realizar el disparo desde el boton touch
+    /// </summary>
     public void DispararTouch()
     {
         IntentarDisparo();
     }
+    /// <summary>
+    /// Funcion para realizar el disparo desde el teclado
+    /// </summary>
     void Disparar()
     {
         _timer += 1 * Time.deltaTime; //contador de tiempo
@@ -118,7 +125,9 @@ public class Player : MonoBehaviour
             IntentarDisparo();
         }
     }
-    
+    /// <summary>
+    /// Funcion para generar el disparo en pantalla, permite validar si ya esta disponible la bala
+    /// </summary>
     private void IntentarDisparo()
     {
         if (_timer > ratioBullet)
@@ -129,7 +138,9 @@ public class Player : MonoBehaviour
             _timer = 0;
         }
     }
-
+    /// <summary>
+    /// Funcion para reproducir un sonido independiente de un gameobject
+    /// </summary>
     void ReproduceSound(AudioClip clip)
     {
         GameObject tempAudio = new GameObject("TempAudio");
@@ -263,6 +274,9 @@ public class Player : MonoBehaviour
         UpdateUIValues();
     }
 
+    /// <summary>
+    /// Funcion para activar los distintos items
+    /// </summary>
     public void ActivarItem(TipoItem tipo)
     {
         switch (tipo)
