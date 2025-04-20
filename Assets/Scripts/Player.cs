@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform livesContainer;
     [SerializeField] private GameObject gameOverContainer;
     [SerializeField] private GameObject stopGameContainer;
+    [SerializeField] private GameObject canvasMando;
 
     [Header("Sonidos")] [SerializeField] private AudioClip audioBullet;
     [SerializeField] private AudioClip audioImpact;
@@ -36,9 +37,20 @@ public class Player : MonoBehaviour
     public int TotalLives => _totalLives;
     public float CurrentHealth => _currentHealth;
     
+    /*Movimiento con pantalla touch*/
+    private Vector2 _inputTouch = Vector2.zero;
+
+    public void MoverArriba()    { _inputTouch.y =  1; }
+    public void MoverAbajo()     { _inputTouch.y = -1; }
+    public void MoverIzquierda() { _inputTouch.x = -1; }
+    public void MoverDerecha()   { _inputTouch.x =  1; }
+    public void DetenerMovimientoHorizontal() { _inputTouch.x = 0; }
+    public void DetenerMovimientoVertical()   { _inputTouch.y = 0; }
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        canvasMando.SetActive(Application.isMobilePlatform);
         InitialValues();
     }
 
@@ -68,12 +80,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Funcion para realizar el movimiento del player, con AWSD o Touch
+    /// </summary>
     void Movimiento()
     {
-        /*** Agregar movimiento en x,y ***/
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        transform.Translate(new Vector2(horizontal, vertical).normalized * (moveSpeed * Time.deltaTime));
+        // Si hay input táctil, lo usamos en vez del teclado
+        if (_inputTouch != Vector2.zero)
+        {
+            horizontal = _inputTouch.x;
+            vertical = _inputTouch.y;
+        }
+        Vector2 direccion = new Vector2(horizontal, vertical).normalized;
+        transform.Translate(direccion * moveSpeed * Time.deltaTime);
     }
 
     void DelimintarMovimiento()
@@ -84,16 +105,28 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(xClamp, yClamp, transform.position.z);
     }
 
+    public void DispararTouch()
+    {
+        IntentarDisparo();
+    }
     void Disparar()
     {
         _timer += 1 * Time.deltaTime; //contador de tiempo
         /*se realiza un disparo cuando se preciona la tecla "espacio solo si ya se cumplio el tiempo minimo"*/
         if (Input.GetKeyDown(KeyCode.Space) && _timer > ratioBullet)
         {
+            IntentarDisparo();
+        }
+    }
+    
+    private void IntentarDisparo()
+    {
+        if (_timer > ratioBullet)
+        {
             Instantiate(bulletPrefab, spawnPoint1.transform.position, Quaternion.identity);
             Instantiate(bulletPrefab, spawnPoint2.transform.position, Quaternion.identity);
-            ReproduceSound(audioBullet); //Reproducir sonido
-            _timer = 0; //reiniciar el contador de tiempo
+            ReproduceSound(audioBullet);
+            _timer = 0;
         }
     }
 
